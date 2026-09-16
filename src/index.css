@@ -16,7 +16,7 @@
   }
 }
 
-/* Butter-smooth floating ambient hearts using translate3d for GPU acceleration */
+/* Butter-smooth floating ambient hearts */
 @keyframes float-heart {
   0% {
     transform: translate3d(0, 0, 0) scale(0.85) rotate(0deg);
@@ -41,23 +41,40 @@
   animation: float-heart linear infinite;
 }
 
+/* Gentle romantic rain of hearts falling slowly from the top */
+@keyframes heart-rain-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  90% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(15px, 115vh, 0) rotate(35deg) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.heart-rain {
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  z-index: 50;
+  animation: heart-rain-fall linear infinite;
+  will-change: transform, opacity;
+}
+
 /* Heartbeat pounding animation for the YES button */
 @keyframes heart-pound {
-  0% {
-    transform: scale(1);
-  }
-  14% {
-    transform: scale(1.28);
-  }
-  28% {
-    transform: scale(1);
-  }
-  42% {
-    transform: scale(1.24);
-  }
-  70% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  14% { transform: scale(1.28); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.24); }
+  70% { transform: scale(1); }
 }
 
 .animate-heart-pound {
@@ -67,29 +84,41 @@
   will-change: transform;
 }
 
-/* Organic, non-jittery spring sway for mobile tap feedback */
+/* Organic spring sway for mobile tap */
 @keyframes smooth-sway {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-  20% {
-    transform: translate3d(-10px, 0, 0) rotate(-2.5deg);
-  }
-  45% {
-    transform: translate3d(8px, 0, 0) rotate(2deg);
-  }
-  70% {
-    transform: translate3d(-4px, 0, 0) rotate(-1deg);
-  }
-  90% {
-    transform: translate3d(2px, 0, 0) rotate(0.5deg);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  20% { transform: translate3d(-10px, 0, 0) rotate(-2.5deg); }
+  45% { transform: translate3d(8px, 0, 0) rotate(2deg); }
+  70% { transform: translate3d(-4px, 0, 0) rotate(-1deg); }
+  90% { transform: translate3d(2px, 0, 0) rotate(0.5deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
 }
 
 .animate-sway {
   animation: smooth-sway 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  will-change: transform;
+}
+
+/* Romantic rhythmic dance loop */
+@keyframes romantic-dance-loop {
+  0% {
+    transform: scale(1) rotate(0deg) translateY(0);
+  }
+  25% {
+    transform: scale(1.025) rotate(-1.5deg) translateY(-6px);
+  }
+  50% {
+    transform: scale(1.01) rotate(1.2deg) translateY(-2px);
+  }
+  75% {
+    transform: scale(1.03) rotate(-1deg) translateY(-5px);
+  }
+  100% {
+    transform: scale(1) rotate(0deg) translateY(0);
+  }
+}
+
+.animate-dance-loop {
+  animation: romantic-dance-loop 4s ease-in-out infinite;
   will-change: transform;
 }
