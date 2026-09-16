@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+/* Butter-smooth floating ambient hearts using translate3d for GPU acceleration */
+@keyframes float-heart {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.85) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.65;
+  }
+  85% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(0, -115vh, 0) scale(1.15) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+.floating-bg-heart {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: float-heart linear infinite;
+}
+
+/* Heartbeat pounding animation for the YES button */
+@keyframes heart-pound {
+  0% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.28);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.24);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+.animate-heart-pound {
+  display: inline-block;
+  transform-origin: center center;
+  animation: heart-pound 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  will-change: transform;
+}
+
+/* Organic, non-jittery spring sway for mobile tap feedback */
+@keyframes smooth-sway {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  20% {
+    transform: translate3d(-10px, 0, 0) rotate(-2.5deg);
+  }
+  45% {
+    transform: translate3d(8px, 0, 0) rotate(2deg);
+  }
+  70% {
+    transform: translate3d(-4px, 0, 0) rotate(-1deg);
+  }
+  90% {
+    transform: translate3d(2px, 0, 0) rotate(0.5deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+.animate-sway {
+  animation: smooth-sway 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  will-change: transform;
+}
