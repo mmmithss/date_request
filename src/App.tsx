@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react"
 import { Heart, RotateCcw } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./components/ui/card"
 import { Button } from "./components/ui/button"
+import { DanceScene } from "./components/DanceScene"
 
 export default function App() {
   const [accepted, setAccepted] = useState(false)
@@ -142,9 +143,6 @@ export default function App() {
 
   const currentNoText = noButtonTexts[Math.min(noCount, noButtonTexts.length - 1)]
 
-  // Resolve base path for public assets
-  const basePath = import.meta.env.BASE_URL || "./"
-
   return (
     <main
       ref={containerRef}
@@ -185,73 +183,21 @@ export default function App() {
           />
         ))}
 
-      {/* CHARACTER ON THE LEFT: Guy with long hair, black bandana, white shirt with comets/stars & #11 */}
+      {/* Center Layout Container: 3D Stage directly above the question card */}
       <div
-        className={`fixed left-2 sm:left-6 lg:left-14 bottom-0 z-20 pointer-events-none transition-all duration-1000 ease-in-out ${
-          accepted
-            ? "translate-x-[150%] opacity-0 scale-75"
-            : "translate-x-0 opacity-100 scale-100"
-        }`}
-      >
-        <div className="relative group">
-          <div className="relative w-32 sm:w-52 md:w-64 lg:w-72 drop-shadow-2xl overflow-hidden rounded-2xl border-4 border-amber-200/60 bg-amber-50/20 backdrop-blur-xs">
-            <img
-              src={`${basePath}guy.jpg`}
-              alt="Guy with bandana and comet shirt"
-              className="w-full h-auto object-cover rounded-xl transition-transform duration-500 hover:scale-105"
-            />
-            {/* Oil paint artistic tag */}
-            <div className="absolute bottom-2 left-2 right-2 rounded-lg bg-black/40 backdrop-blur-md px-2 py-1 text-center text-[10px] sm:text-xs font-semibold text-white/90">
-              ?? No. 11 Stargazer
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* CHARACTER ON THE RIGHT: Brown girl with brown hair & bangs in iconic yellow dress */}
-      <div
-        className={`fixed right-2 sm:right-6 lg:right-14 bottom-0 z-20 pointer-events-none transition-all duration-1000 ease-in-out ${
-          accepted
-            ? "-translate-x-[150%] opacity-0 scale-75"
-            : "translate-x-0 opacity-100 scale-100"
-        }`}
-      >
-        <div className="relative group">
-          <div className="relative w-32 sm:w-52 md:w-64 lg:w-72 drop-shadow-2xl overflow-hidden rounded-2xl border-4 border-yellow-200/60 bg-yellow-50/20 backdrop-blur-xs">
-            <img
-              src={`${basePath}girl.jpg`}
-              alt="Girl in yellow dress"
-              className="w-full h-auto object-cover rounded-xl transition-transform duration-500 hover:scale-105"
-            />
-            {/* Oil paint artistic tag */}
-            <div className="absolute bottom-2 left-2 right-2 rounded-lg bg-black/40 backdrop-blur-md px-2 py-1 text-center text-[10px] sm:text-xs font-semibold text-white/90">
-              ?? La La Land Dreamer
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Container / Card */}
-      <div
-        className={`w-full max-w-md sm:max-w-lg transition-transform duration-300 ease-out z-30 ${
+        className={`w-full max-w-md sm:max-w-lg flex flex-col items-center transition-transform duration-300 ease-out z-30 ${
           swaying ? "animate-sway" : ""
         }`}
       >
-        <Card className="border-2 border-pink-200/80 bg-white/92 shadow-[0_25px_65px_-12px_rgba(244,63,94,0.25)] backdrop-blur-xl text-center rounded-3xl overflow-hidden p-3 sm:p-5">
+        {/* THREE.JS 3D INTERACTIVE DANCE STAGE ABOVE THE CARD */}
+        <div className="w-full flex flex-col items-center -mb-5 sm:-mb-6 relative z-10 pointer-events-auto">
+          <DanceScene accepted={accepted} />
+        </div>
+
+        <Card className="w-full border-2 border-pink-200/80 bg-white/92 shadow-[0_25px_65px_-12px_rgba(244,63,94,0.25)] backdrop-blur-xl text-center rounded-3xl overflow-hidden p-3 sm:p-5 pt-4 sm:pt-6">
           {!accepted ? (
             <>
-              <CardHeader className="flex flex-col items-center pb-2 pt-1 sm:pt-2 px-2 sm:px-4">
-                {/* Hero Avatar with Pounding Heart */}
-                <div className="relative mb-2 flex items-center justify-center">
-                  <div className="absolute -inset-2 rounded-full bg-pink-400/25 blur-lg animate-pulse" />
-                  <div className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-gradient-to-tr from-yellow-500 via-rose-500 to-pink-500 text-white shadow-lg shadow-pink-500/35">
-                    <Heart
-                      className="h-8 w-8 sm:h-10 sm:w-10 animate-heart-pound drop-shadow-sm"
-                      fill="currentColor"
-                    />
-                  </div>
-                </div>
-
+              <CardHeader className="flex flex-col items-center pb-2 pt-1 px-2 sm:px-4">
                 <CardTitle className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-pink-600 via-rose-600 to-amber-600 bg-clip-text text-transparent py-1 leading-tight">
                   Will you go out on a date with me?
                 </CardTitle>
@@ -262,9 +208,9 @@ export default function App() {
                       {swayMessage}
                     </span>
                   ) : noCount > 0 ? (
-                    `Dodge count: ${noCount} ????? Two worlds destined to collide!`
+                    `Dodge count: ${noCount} ????? They are waiting for you to say YES!`
                   ) : (
-                    "City of stars, are you shining just for us? ???"
+                    "Look at them on the stage above! Say yes to let them dance together ???"
                   )}
                 </CardDescription>
               </CardHeader>
@@ -308,25 +254,20 @@ export default function App() {
                 </div>
 
                 <div className="mt-4 text-[11px] font-semibold text-pink-400 tracking-wider uppercase">
-                  Tip: Look at the two lovers on the sides... say yes to bring them together! ?
+                  Tip: Move your mouse or touch the screen to interact with the 3D stage! ?
                 </div>
               </CardContent>
             </>
           ) : (
-            /* ACCEPTED STATE: DANCING COUPLE IN OIL PAINTING + HEART RAIN */
-            <div className="py-2 sm:py-4 px-2 flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-700">
-              {/* Couple Dancing Together in Oil Painting with Continuous Dance Loop */}
-              <div className="relative mb-3 w-full max-w-xs sm:max-w-sm overflow-hidden rounded-3xl border-4 border-amber-300/80 shadow-2xl shadow-rose-500/30 bg-black/5">
-                <img
-                  src={`${basePath}couple_dancing.jpg`}
-                  alt="Couple dancing in oil painting style"
-                  className="w-full h-auto object-cover rounded-2xl animate-dance-loop"
-                />
-
-                {/* Soft romantic gradient vignette */}
-                <div className="absolute inset-0 pointer-events-none rounded-2xl bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                <div className="absolute bottom-2 left-3 right-3 text-center text-xs sm:text-sm font-bold text-amber-200 drop-shadow">
-                  ?? Dancing under the city of stars ?
+            /* ACCEPTED STATE: 3D DANCE CELEBRATION IN PROGRESS + HEART RAIN */
+            <div className="py-3 px-2 flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-700">
+              <div className="relative mb-2 flex items-center justify-center">
+                <div className="absolute -inset-2 rounded-full bg-pink-400/25 blur-lg animate-pulse" />
+                <div className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-gradient-to-tr from-yellow-500 via-rose-500 to-pink-500 text-white shadow-lg shadow-pink-500/35">
+                  <Heart
+                    className="h-7 w-7 sm:h-8 sm:w-8 animate-heart-pound drop-shadow-sm"
+                    fill="currentColor"
+                  />
                 </div>
               </div>
 
@@ -335,7 +276,7 @@ export default function App() {
               </h2>
 
               <p className="mt-1 text-sm sm:text-base font-semibold text-neutral-700 max-w-sm mx-auto">
-                They finally came together to dance! Best decision ever made. ??
+                Watch them dance together under the city of stars! ?????
               </p>
 
               <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
@@ -383,7 +324,7 @@ export default function App() {
 
       {/* Footer message */}
       <footer className="absolute bottom-2 text-center text-[11px] text-pink-950/40 font-medium tracking-wide">
-        City of Stars • Made with love ??
+        City of Stars • 3D Interactive Experience • Made with love ??
       </footer>
     </main>
   )
